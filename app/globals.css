@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Global Reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Body Base Style ---------- */
+html, body {
+  background-color: #000;               /* Skylounge Schwarz */
+  color: #fff;                          /* Weißer Text */
+  font-family: ui-sans-serif, system-ui;
+  scroll-behavior: smooth;
+}
+
+/* ---------- Hide Scrollbars (modern browsers) ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- Links ---------- */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.9;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.25s ease-out forwards;
+}
+
+/* ---------- Page Layout Helpers ---------- */
+.page-container {
+  padding-top: 70px;    /* Platz für den festen Header */
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* ---------- Optional: Soft Glow for Skylounge UI ---------- */
+.glow {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+/* ---------- Optional: Soft Text Glow ---------- */
+.text-glow {
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+/* ---------- Background Image Helper (wenn du willst) ---------- */
+.bg-cover-center {
+  background-size: cover;
+  background-position: center;
+}
+/* ======================================== */
+/* AILEXSI • CINEMATIC UI EXTENSIONS        */
+/* ======================================== */
+
+/* Modal fade + float */
+@keyframes ailexsi-fadeIn {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Modal fade-out collapse */
+@keyframes ailexsi-fadeOut {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.96); }
+}
+
+/* Header Light Sweep */
+@keyframes ailexsi-lightsweep {
+  0%   { transform: translateX(-150%); opacity: 0; }
+  50%  { opacity: 1; }
+  100% { transform: translateX(150%); opacity: 0; }
+}
+
+/* Utility classes */
+.animate-ailexsiFadeIn {
+  animation: ailexsi-fadeIn 0.45s ease-out forwards;
+}
+
+.animate-ailexsiFadeOut {
+  animation: ailexsi-fadeOut 0.35s ease-in forwards;
+}
+
+.animate-lightsweep {
+  animation: ailexsi-lightsweep 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+

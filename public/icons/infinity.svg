@@ -1,0 +1,27 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 120 60"
+  className="relative w-12 h-6"
+>
+  <defs>
+    <linearGradient id="infGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#4df4ff" />
+      <stop offset="100%" stopColor="#00aaff" />
+    </linearGradient>
+  </defs>
+
+  <path
+    d="
+      M20,30
+      C20,15 40,15 60,30
+      C80,45 100,45 100,30
+      C100,15 80,15 60,30
+      C40,45 20,45 20,30
+    "
+    stroke="url(#infGradient)"
+    strokeWidth="5"
+    fill="none"
+    strokeLinecap="round"
+    className="drop-shadow-[0_0_12px_rgba(0,200,255,0.45)]"
+  />
+</svg>
