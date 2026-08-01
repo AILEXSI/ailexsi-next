@@ -45,45 +45,45 @@ export default function PortalProvider() {
   }
 
   /* -------------------------------------------------------- */
-  /* GLOBAL UI FUNCTIONS (für Header & InfinityButton)         */
+  /* GLOBAL PORTAL STATE – SINGLE SOURCE OF TRUTH              */
   /* -------------------------------------------------------- */
   useEffect(() => {
-    // Toggle: öffnet oder schließt das Modal
-    (window as any).AILEXSI_PORTAL_TOGGLE = () => {
-      setOpen((prev) => !prev);
-    };
-
-    // Optional: reines Öffnen
     (window as any).AILEXSI_PORTAL_OPEN = () => {
       setOpen(true);
+      (window as any).AILEXSI_PORTAL_STATE = true;
     };
 
-    // Optional: reines Schließen
     (window as any).AILEXSI_PORTAL_CLOSE = () => {
       setOpen(false);
+      (window as any).AILEXSI_PORTAL_STATE = false;
+    };
+
+    (window as any).AILEXSI_PORTAL_TOGGLE = () => {
+      const next = !(window as any).AILEXSI_PORTAL_STATE;
+      setOpen(next);
+      (window as any).AILEXSI_PORTAL_STATE = next;
     };
   }, []);
 
   /* -------------------------------------------------------- */
-  /* GLOBAL UI STATE EXPORT (verfügbar für Header.tsx)         */
+  /* ROUTE CHANGE → ALWAYS CLOSE PORTAL                        */
   /* -------------------------------------------------------- */
   useEffect(() => {
-    (window as any).AILEXSI_PORTAL_STATE = open;
-  }, [open]);
+    (window as any).AILEXSI_PORTAL_CLOSE?.();
+  }, [pathname]);
 
   /* -------------------------------------------------------- */
-  /* OPTIONAL: Scroll-Lock wenn Modal offen                    */
+  /* SCROLL LOCK                                              */
   /* -------------------------------------------------------- */
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
   return (
-    <ModalPageContent isOpen={open} onClose={() => setOpen(false)}>
+    <ModalPageContent
+      isOpen={open}
+      onClose={() => (window as any).AILEXSI_PORTAL_CLOSE?.()}
+    >
       {getContent()}
     </ModalPageContent>
   );

@@ -24,19 +24,30 @@ export default function Header() {
 
   const [portalActive, setPortalActive] = useState(false);
 
-  // Portal-State aus globalem Fenster lesen, immer wenn Route wechselt
   useEffect(() => {
     if (typeof window !== "undefined") {
       setPortalActive((window as any).AILEXSI_PORTAL_STATE === true);
     }
   }, [pathname]);
 
-  // Wenn Route wechselt → Modal automatisch schließen
-  useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).AILEXSI_PORTAL_CLOSE) {
-      (window as any).AILEXSI_PORTAL_CLOSE();
+  /* --------------------------------------------- */
+  /* LEGAL LINK TOGGLE HANDLER                      */
+  /* --------------------------------------------- */
+
+  const handleLegalClick = (
+    e: React.MouseEvent,
+    targetPath: "/impressum" | "/datenschutz"
+  ) => {
+    if (pathname === targetPath) {
+      // gleiches Ziel → "Close" = zurück zur Landing
+      e.preventDefault();
+      router.push("/");
+      return;
     }
-  }, [pathname]);
+    // sonst normal navigieren
+  };
+
+  const isLegalPage = pathname === "/impressum" || pathname === "/datenschutz";
 
   return (
     <header
@@ -54,7 +65,6 @@ export default function Header() {
           grid grid-cols-3 items-center
         "
       >
-
         {/* LEFT: LOGO + LEGAL */}
         <div className="flex items-center gap-8">
           <div className="text-3xl font-bold tracking-wide text-white">
@@ -62,19 +72,25 @@ export default function Header() {
           </div>
 
           <div className="flex gap-4 text-sm text-white/70">
-            <Link href="/impressum" className="hover:text-white transition">
-              Impressum
+            <Link
+              href="/impressum"
+              onClick={(e) => handleLegalClick(e, "/impressum")}
+              className="hover:text-white transition"
+            >
+              Legal Notice
             </Link>
-            <Link href="/datenschutz" className="hover:text-white transition">
-              Datenschutz
+            <Link
+              href="/datenschutz"
+              onClick={(e) => handleLegalClick(e, "/datenschutz")}
+              className="hover:text-white transition"
+            >
+              Privacy Policy
             </Link>
           </div>
         </div>
 
         {/* CENTER ( ← ∞ → ) */}
         <div className="flex justify-center items-center gap-10">
-
-          {/* PREV */}
           <button
             onClick={() => router.push(`/${prevPage}`)}
             className="text-3xl text-white/80 hover:text-white transition"
@@ -82,40 +98,55 @@ export default function Header() {
             ⇦
           </button>
 
-          {/* INFINITY PORTAL mit active-Sync */}
           <InfinityButton
             active={portalActive}
             onClick={() => {
-              if ((window as any).AILEXSI_PORTAL_TOGGLE) {
-                (window as any).AILEXSI_PORTAL_TOGGLE();
-              }
+              (window as any).AILEXSI_PORTAL_TOGGLE?.();
             }}
           />
 
-          {/* NEXT */}
           <button
             onClick={() => router.push(`/${nextPage}`)}
             className="text-3xl text-white/80 hover:text-white transition"
           >
             ⇨
           </button>
-
         </div>
 
-        {/* RIGHT: PAGE TITLE */}
-        <div className="text-right">
-          <div className="text-xl font-semibold text-white select-none">
+        {/* RIGHT: PAGE TITLE + CLOSE (LEGAL) */}
+        <div className="flex items-center justify-end gap-4">
+          {isLegalPage && (
+            <button
+              onClick={() => router.push("/")}
+              aria-label="Close"
+              title="Close"
+              className="
+                w-9 h-9
+                rounded-full
+                border border-white/15
+                bg-black/30 backdrop-blur-xl
+                text-white/80
+                hover:text-white hover:border-white/30
+                transition
+                flex items-center justify-center
+                text-xl
+              "
+            >
+              ×
+            </button>
+          )}
+
+          <div className="text-xl font-semibold text-white select-none text-right">
             {title}
           </div>
         </div>
-
       </div>
 
       {/* HEADER-SWEEP */}
       <div className="absolute bottom-0 left-0 w-full h-[2px] overflow-hidden pointer-events-none">
         <div className="w-[200px] h-full bg-cyan-400/70 blur-[2px] animate-lightsweep"></div>
       </div>
-
     </header>
   );
 }
+
