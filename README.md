@@ -2,7 +2,7 @@
 
 Official homepage for **[www.ailexsi.com](https://www.ailexsi.com)**.
 
-Minimal cinematic multi-page site with **← ∞ →** navigation and infinity portal notes.
+Clean, modern cinematic multi-page site with **circular ← ∞ → navigation** and infinity portal notes.
 
 ---
 
@@ -32,23 +32,30 @@ npm run lint
 
 ---
 
-## Pages
+## Circular navigation order
 
-| Path | Section |
-|------|---------|
-| `/` | Landing |
-| `/vision` | Vision |
-| `/skylounge` | Skylounge |
-| `/skyloungebar` | Skylounge Bar |
-| `/stage` | Stage |
-| `/studio` | Studio |
-| `/gallery` | Gallery |
-| `/shop` | Shop |
-| `/heartspace` | Heartspace |
+Header arrows cycle in this order (wraps around):
+
+| # | Title | Route |
+|---|--------|--------|
+| 1 | Landing | `/` |
+| 2 | Vision | `/vision` |
+| 3 | Skylounge | `/skylounge` |
+| 4 | Gallery | `/gallery` |
+| 5 | Studio | `/studio` |
+| 6 | Stage | `/stage` |
+| 7 | Bar | `/skyloungebar` |
+| 8 | Heartspace | `/heartspace` |
+| 9 | Shop | `/shop` |
+
+**∞** opens the portal modal with page notes for the current section.
+
+### Legal (outside the cycle)
+
+| Path | Page |
+|------|------|
 | `/impressum` | Legal notice |
 | `/datenschutz` | Privacy policy |
-
-**Navigation:** header arrows cycle the main sequence; the **∞** button opens portal content for the current page.
 
 ---
 
@@ -56,30 +63,32 @@ npm run lint
 
 ```
 ailexsi-next/
-├── app/                    # App Router pages + API
-│   ├── page.tsx            # Landing
-│   ├── layout.tsx          # Header + portal
-│   ├── globals.css
-│   ├── vision|skylounge|…  # Section pages
+├── app/                      # App Router pages + gallery API
+│   ├── page.tsx              # Landing
+│   ├── layout.tsx            # Header + portal shell
+│   ├── globals.css           # Tailwind v4 + cinematic UI
+│   ├── vision|skylounge|…    # Section pages
 │   ├── heartspace/
 │   ├── impressum|datenschutz/
 │   └── api/gallery/[category]/
 ├── components/
-│   ├── header/             # Logo, ← ∞ →, legal links
-│   ├── navigation/pageMap  # Page order + titles
-│   ├── portal/             # Infinity modal controller
-│   ├── layout/Background
-│   ├── content/            # Portal page notes
-│   └── modals/             # Legal content + portal shell
-├── public/images/          # Backgrounds + portal art only
-└── package.json
+│   ├── header/               # Logo, ← ∞ →, legal links
+│   ├── navigation/pageMap.ts # Circular order + titles
+│   ├── portal/               # Infinity modal controller
+│   ├── layout/Background.tsx
+│   ├── content/              # Portal notes per section
+│   └── modals/               # Legal content + portal shell
+├── public/images/            # Active backgrounds only
+├── old/                      # Archived unused files (see old/README.md)
+├── package.json
+└── README.md
 ```
 
 ---
 
-## Images (`public/images/`)
+## Active images (`public/images/`)
 
-Only assets referenced by pages or portal content are kept:
+Only assets referenced by pages or portal content:
 
 ```
 public/images/
@@ -88,33 +97,45 @@ public/images/
 │   └── your-second-landing-image.png
 ├── vision/vision_master_4k.png
 ├── skylounge/skylounge_master_4k.jpg
-├── skyloungebar/skylounge-bar_master_4k.png
-├── stage/skylounge-stage_master_4k.png
-├── studio/studio_master_4k.png
 ├── gallery/skylounge-gallery_master_4k.png
-├── shop/shop-master_4k.png
+├── studio/studio_master_4k.png
+├── stage/skylounge-stage_master_4k.png
+├── skyloungebar/skylounge-bar_master_4k.png
 ├── heartspace/heartspace-master_4k.png
+├── shop/shop-master_4k.png
 └── content/
     ├── gallery/gallery_bg.png
     └── studio/studiocontent.png
 ```
 
-Old variants (`*_old*`, `Neuer Ordner`, `old/`) were removed.
+---
+
+## Archive (`/old`)
+
+Unused images (`Neuer Ordner`, `*_old*`, previous exports), unused modal wrappers, starter SVGs, and obsolete configs are **not deleted**.
+
+They live under **`/old`** with original relative paths, documented in **[old/README.md](./old/README.md)**.
 
 ---
 
 ## Deploy (Vercel)
 
 1. Connect `AILEXSI/ailexsi-next` in Vercel.
-2. Framework: **Next.js** (default build/start).
-3. Attach domain `www.ailexsi.com`.
+2. Framework: **Next.js** (default build / start).
+3. Point `www.ailexsi.com` (and apex if desired) at the deployment.
 
-No environment variables required for the static/marketing shell.
+No environment variables required for the marketing shell.
 
 ---
 
 ## Notes
 
 - Gallery API lists files under `public/images/gallery/<category>/` when those folders exist.
-- Portal copy lives in `components/content/*` and can be expanded without changing page chrome.
-- Dependencies use current Next/React; `npm overrides` pin patched `postcss` / `sharp` where needed.
+- Portal copy lives in `components/content/*`.
+- Navigation order is defined only in `components/navigation/pageMap.ts`.
+- Dependencies track current Next/React; `npm overrides` pin patched `postcss` / `sharp` where needed.
+- `npm audit` should report **0 vulnerabilities** after install.
+
+---
+
+*We Are Who We AIM for Love and Love aims for us.*

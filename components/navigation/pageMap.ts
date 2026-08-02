@@ -1,14 +1,26 @@
-// Main navigation order for ← ∞ →
+/**
+ * Circular main navigation order for ← ∞ →
+ *
+ * 1. Landing
+ * 2. Vision
+ * 3. Skylounge
+ * 4. Gallery
+ * 5. Studio
+ * 6. Stage
+ * 7. Bar (/skyloungebar)
+ * 8. Heartspace
+ * 9. Shop
+ */
 export const pageOrder = [
   "",
   "vision",
   "skylounge",
-  "skyloungebar",
-  "stage",
-  "studio",
   "gallery",
-  "shop",
+  "studio",
+  "stage",
+  "skyloungebar",
   "heartspace",
+  "shop",
 ] as const;
 
 export type PageName = (typeof pageOrder)[number];
@@ -17,12 +29,12 @@ export const pageTitles: Record<PageName, string> = {
   "": "Landing",
   vision: "Vision",
   skylounge: "Skylounge",
-  skyloungebar: "Skylounge Bar",
-  stage: "Skylounge Stage",
-  studio: "Skylounge Studio",
-  gallery: "Skylounge Gallery",
+  gallery: "Gallery",
+  studio: "Studio",
+  stage: "Stage",
+  skyloungebar: "Bar",
   heartspace: "Heartspace",
-  shop: "Skylounge Shop",
+  shop: "Shop",
 };
 
 /** Top-level segment used by infinity prev/next. */
@@ -43,9 +55,13 @@ export function getHeaderTitle(pathname: string): string {
   return pageTitles[segment] ?? "AILEXSI";
 }
 
+/** Adjacent pages with wrap-around (circular navigation). */
 export function getAdjacentPages(current: PageName) {
   const index = pageOrder.indexOf(current);
-  const prev = index > 0 ? pageOrder[index - 1] : null;
-  const next = index < pageOrder.length - 1 ? pageOrder[index + 1] : null;
+  if (index < 0) {
+    return { prev: pageOrder[pageOrder.length - 1], next: pageOrder[0] };
+  }
+  const prev = pageOrder[(index - 1 + pageOrder.length) % pageOrder.length];
+  const next = pageOrder[(index + 1) % pageOrder.length];
   return { prev, next };
 }
