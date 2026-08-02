@@ -122,32 +122,39 @@ export default function Header() {
           </div>
         </div>
 
-        {/* RIGHT: page title (+ close on legal) */}
-        <div className="relative z-10 flex min-w-0 flex-1 items-center justify-end gap-4">
-          {isLegalPage && (
-            <button
-              type="button"
-              onClick={() => router.push("/")}
-              aria-label="Close"
-              title="Close"
-              className="
-                w-9 h-9 shrink-0
-                rounded-full
-                border border-white/15
-                bg-black/30 backdrop-blur-xl
-                text-white/80
-                hover:text-white hover:border-white/30
-                transition
-                flex items-center justify-center
-                text-xl
-              "
-            >
-              ×
-            </button>
-          )}
+        {/* RIGHT: page title — inset from the edge for visual balance */}
+        <div
+          className="
+            relative z-10 flex min-w-0 flex-1 items-center justify-end
+            pr-2 sm:pr-6 md:pr-10 lg:pr-14
+          "
+        >
+          <div className="flex max-w-[min(100%,14rem)] items-center justify-end gap-3 sm:max-w-[min(100%,18rem)] sm:gap-4">
+            {isLegalPage && (
+              <button
+                type="button"
+                onClick={() => router.push("/")}
+                aria-label="Close"
+                title="Close"
+                className="
+                  w-9 h-9 shrink-0
+                  rounded-full
+                  border border-white/15
+                  bg-black/30 backdrop-blur-xl
+                  text-white/80
+                  hover:text-white hover:border-white/30
+                  transition
+                  flex items-center justify-center
+                  text-xl
+                "
+              >
+                ×
+              </button>
+            )}
 
-          <div className="truncate text-base sm:text-xl font-semibold text-white select-none text-right">
-            {title}
+            <div className="truncate text-base sm:text-xl font-semibold tracking-wide text-white select-none text-right">
+              {title}
+            </div>
           </div>
         </div>
       </div>
