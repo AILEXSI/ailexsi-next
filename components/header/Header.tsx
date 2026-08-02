@@ -41,82 +41,118 @@ export default function Header() {
   const isLegalPage = pathname === "/impressum" || pathname === "/datenschutz";
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.35)]">
-      <div className="max-w-screen-2xl mx-auto px-6 py-4 grid grid-cols-3 items-center">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="text-3xl font-bold tracking-wide text-white">
+    <header
+      className="
+        fixed top-0 left-0 right-0 z-50
+        w-full max-w-none
+        box-border
+        bg-black/40 backdrop-blur-xl
+        border-b border-white/10
+        shadow-[0_0_30px_rgba(0,0,0,0.35)]
+      "
+    >
+      {/*
+        Full-viewport-width bar. Side zones share flex-1 so the middle
+        (← ∞ →) is always at 50% of the viewport — stable at every zoom.
+      */}
+      <div className="relative mx-auto box-border flex w-full max-w-none items-center px-4 py-4 sm:px-6">
+        {/* LEFT: logo + legal */}
+        <div className="relative z-10 flex min-w-0 flex-1 items-center gap-4 sm:gap-8">
+          <Link
+            href="/"
+            className="shrink-0 text-2xl font-bold tracking-wide text-white sm:text-3xl"
+          >
             AiLeXSI
           </Link>
 
-          <div className="hidden sm:flex gap-4 text-sm text-white/70">
+          <div className="hidden min-w-0 sm:flex gap-4 text-sm text-white/70">
             <Link
               href="/impressum"
               onClick={(e) => handleLegalClick(e, "/impressum")}
-              className="hover:text-white transition"
+              className="hover:text-white transition whitespace-nowrap"
             >
               Legal Notice
             </Link>
             <Link
               href="/datenschutz"
               onClick={(e) => handleLegalClick(e, "/datenschutz")}
-              className="hover:text-white transition"
+              className="hover:text-white transition whitespace-nowrap"
             >
               Privacy Policy
             </Link>
           </div>
         </div>
 
-        <div className="flex justify-center items-center gap-6 sm:gap-10">
-          <button
-            type="button"
-            onClick={() => router.push(prevPage ? `/${prevPage}` : "/")}
-            className="text-3xl text-white/80 hover:text-white transition"
-            aria-label="Previous page"
-          >
-            ⇦
-          </button>
+        {/* CENTER: true horizontal center of the viewport */}
+        <div
+          className="
+            pointer-events-none absolute inset-y-0 left-1/2 z-20
+            flex -translate-x-1/2 items-center
+          "
+        >
+          <div className="pointer-events-auto flex items-center gap-5 sm:gap-10">
+            <button
+              type="button"
+              onClick={() => router.push(prevPage ? `/${prevPage}` : "/")}
+              className="text-3xl text-white/80 hover:text-white transition"
+              aria-label="Previous page"
+            >
+              ⇦
+            </button>
 
-          <InfinityButton
-            active={portalActive}
-            onClick={() => {
-              setPortalActive((v) => !v);
-              (
-                window as unknown as { AILEXSI_PORTAL_TOGGLE?: () => void }
-              ).AILEXSI_PORTAL_TOGGLE?.();
-            }}
-          />
+            <InfinityButton
+              active={portalActive}
+              onClick={() => {
+                setPortalActive((v) => !v);
+                (
+                  window as unknown as { AILEXSI_PORTAL_TOGGLE?: () => void }
+                ).AILEXSI_PORTAL_TOGGLE?.();
+              }}
+            />
 
-          <button
-            type="button"
-            onClick={() => router.push(nextPage ? `/${nextPage}` : "/")}
-            className="text-3xl text-white/80 hover:text-white transition"
-            aria-label="Next page"
-          >
-            ⇨
-          </button>
+            <button
+              type="button"
+              onClick={() => router.push(nextPage ? `/${nextPage}` : "/")}
+              className="text-3xl text-white/80 hover:text-white transition"
+              aria-label="Next page"
+            >
+              ⇨
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center justify-end gap-4">
+        {/* RIGHT: page title (+ close on legal) */}
+        <div className="relative z-10 flex min-w-0 flex-1 items-center justify-end gap-4">
           {isLegalPage && (
             <button
               type="button"
               onClick={() => router.push("/")}
               aria-label="Close"
               title="Close"
-              className="w-9 h-9 rounded-full border border-white/15 bg-black/30 backdrop-blur-xl text-white/80 hover:text-white hover:border-white/30 transition flex items-center justify-center text-xl"
+              className="
+                w-9 h-9 shrink-0
+                rounded-full
+                border border-white/15
+                bg-black/30 backdrop-blur-xl
+                text-white/80
+                hover:text-white hover:border-white/30
+                transition
+                flex items-center justify-center
+                text-xl
+              "
             >
               ×
             </button>
           )}
 
-          <div className="text-base sm:text-xl font-semibold text-white select-none text-right">
+          <div className="truncate text-base sm:text-xl font-semibold text-white select-none text-right">
             {title}
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-[2px] overflow-hidden pointer-events-none">
-        <div className="w-[200px] h-full bg-cyan-400/70 blur-[2px] animate-lightsweep" />
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px] overflow-hidden">
+        <div className="h-full w-[200px] bg-cyan-400/70 blur-[2px] animate-lightsweep" />
       </div>
     </header>
   );
