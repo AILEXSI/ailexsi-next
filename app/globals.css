@@ -144,3 +144,16 @@ a:hover {
 .animate-lightsweep {
   animation: ailexsi-lightsweep 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Infinity header glow — soft pulse, no layout scale (stays inside header disc) */
+@keyframes infinityGlow {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+}

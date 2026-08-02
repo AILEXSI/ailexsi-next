@@ -44,18 +44,19 @@ export default function Header() {
     <header
       className="
         fixed top-0 left-0 right-0 z-50
-        w-full max-w-none
-        box-border
+        box-border h-[70px] w-full max-w-none
+        overflow-visible
         bg-black/40 backdrop-blur-xl
         border-b border-white/10
         shadow-[0_0_30px_rgba(0,0,0,0.35)]
       "
     >
       {/*
-        Full-viewport-width bar. Side zones share flex-1 so the middle
-        (← ∞ →) is always at 50% of the viewport — stable at every zoom.
+        Full-viewport-width bar (matches layout mt-[70px]).
+        Side zones share flex-1; infinity sits in true center, inside header height.
+        overflow-visible only so soft glow can slightly extend past the bar.
       */}
-      <div className="relative mx-auto box-border flex w-full max-w-none items-center px-4 py-4 sm:px-6">
+      <div className="relative mx-auto box-border flex h-full w-full max-w-none items-center overflow-visible px-4 sm:px-6">
         {/* LEFT: logo + legal */}
         <div className="relative z-10 flex min-w-0 flex-1 items-center gap-4 sm:gap-8">
           <Link
