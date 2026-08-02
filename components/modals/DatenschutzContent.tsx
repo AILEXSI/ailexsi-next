@@ -2,7 +2,7 @@
 
 export default function DatenschutzContent() {
   return (
-    <div className="max-w-3xl space-y-12 text-sm leading-relaxed text-white/90">
+    <div className="mx-auto max-w-3xl space-y-12 px-5 py-10 text-sm leading-relaxed text-white/90 sm:px-6 sm:py-14">
       {/* ======================= */}
       {/* ENGLISH VERSION */}
       {/* ======================= */}

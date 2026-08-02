@@ -11,94 +11,137 @@ interface GalleryFilesProps {
 export default function GalleryFiles({ category, onBack }: GalleryFilesProps) {
   const [files, setFiles] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  const isMusic = category.toLowerCase() === "music";
   const currentIndex = selectedFile ? files.indexOf(selectedFile) : -1;
 
   const showNext = () => {
-    if (currentIndex < files.length - 1)
-      setSelectedFile(files[currentIndex + 1]);
+    if (currentIndex < files.length - 1) setSelectedFile(files[currentIndex + 1]);
   };
 
   const showPrev = () => {
-    if (currentIndex > 0)
-      setSelectedFile(files[currentIndex - 1]);
+    if (currentIndex > 0) setSelectedFile(files[currentIndex - 1]);
   };
 
-  // Dateien dynamisch laden
   useEffect(() => {
     async function loadFiles() {
-      const res = await fetch(`/api/gallery/${category}`);
-      const data = await res.json();
-      setFiles(data.files);
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/gallery/${encodeURIComponent(category)}`);
+        const data = await res.json();
+        setFiles(Array.isArray(data.files) ? data.files : []);
+      } catch {
+        setFiles([]);
+      } finally {
+        setLoading(false);
+      }
     }
     loadFiles();
   }, [category]);
 
   return (
-    <div
-      className="
-        p-6 rounded-xl
-        bg-black/60
-        backdrop-blur-sm
-        border border-white/10
-        space-y-6 text-white
-      "
-    >
-      {/* Back Button */}
+    <div className="space-y-6 rounded-xl border border-white/10 bg-black/60 p-6 text-white backdrop-blur-sm">
       {!selectedFile && (
         <button
+          type="button"
           onClick={onBack}
           className="
-            text-white/70 hover:text-white
-            border border-white/20 px-3 py-1
-            rounded-md hover:bg-white/10 transition
+            rounded-md border border-white/20 px-3 py-1
+            text-white/70 transition
+            hover:bg-white/10 hover:text-white
           "
         >
           ← Back to Categories
         </button>
       )}
 
-      {/* File Grid */}
       {!selectedFile && (
         <>
-          <h2 className="text-2xl font-semibold">{category} — Files</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">{category}</h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {files.map((src) => (
-              <div
-                key={src}
-                onClick={() => setSelectedFile(src)}
-                className="
-                  bg-black/40 p-2 rounded-lg border border-white/20
-                  hover:bg-black/60 transition cursor-pointer
-                  flex items-center justify-center
-                "
-              >
-                {/* Thumbnail */}
-                {src.match(/\.(mp4|mov|webm)$/i) ? (
-                  <video
-                    src={src}
-                    className="w-full h-full object-cover rounded"
-                    muted
-                  />
-                ) : src.match(/\.(mp3|wav|ogg)$/i) ? (
-                  <div className="text-center text-xs">Audio File</div>
-                ) : src.match(/\.pdf$/i) ? (
-                  <div className="text-center text-xs">PDF File</div>
-                ) : (
-                  <img
-                    src={src}
-                    alt={src}
-                    className="w-full h-full object-cover rounded"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+          {/* Music: SoundCloud entry point */}
+          {isMusic && (
+            <a
+              href="https://soundcloud.com/ailexsi-monday"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                group inline-flex items-center gap-4 rounded-xl
+                border border-white/15 bg-black/50 px-4 py-3
+                transition hover:border-orange-400/40 hover:bg-black/70
+              "
+              title="SoundCloud — AILEXSI Monday"
+              aria-label="Open SoundCloud AILEXSI Monday"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/studio/logos/soundcloud.svg"
+                alt="SoundCloud"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain transition group-hover:brightness-110"
+              />
+              <span className="text-sm text-white/75">
+                AILEXSI Monday on SoundCloud
+                <span className="ml-2 text-white/40 group-hover:text-orange-300/80">↗</span>
+              </span>
+            </a>
+          )}
+
+          {loading && (
+            <p className="text-sm text-white/45">Loading…</p>
+          )}
+
+          {!loading && files.length === 0 && !isMusic && (
+            <p className="text-sm text-white/50">No files in this archive yet.</p>
+          )}
+
+          {!loading && files.length === 0 && isMusic && (
+            <p className="text-sm text-white/45">
+              Stream music via SoundCloud above.
+            </p>
+          )}
+
+          {files.length > 0 && (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+              {files.map((src) => (
+                <button
+                  type="button"
+                  key={src}
+                  onClick={() => setSelectedFile(src)}
+                  className="
+                    flex cursor-pointer items-center justify-center
+                    rounded-lg border border-white/20 bg-black/40 p-2
+                    transition hover:bg-black/60
+                  "
+                >
+                  {src.match(/\.(mp4|mov|webm)$/i) ? (
+                    <video
+                      src={src}
+                      className="h-full w-full rounded object-cover"
+                      muted
+                      playsInline
+                    />
+                  ) : src.match(/\.(mp3|wav|ogg)$/i) ? (
+                    <div className="text-center text-xs text-white/60">Audio</div>
+                  ) : src.match(/\.pdf$/i) ? (
+                    <div className="text-center text-xs text-white/60">PDF</div>
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={src}
+                      alt=""
+                      className="h-full w-full rounded object-cover"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
         </>
       )}
 
-      {/* Viewer */}
       {selectedFile && (
         <GalleryViewer
           file={selectedFile}

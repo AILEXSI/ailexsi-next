@@ -10,43 +10,31 @@ export default function GalleryContent() {
   return (
     <div
       className="
-        p-6 rounded-xl
-        bg-black/60
-        backdrop-blur-sm
-        border border-white/10
-        text-white
-        space-y-6
+        space-y-6 rounded-xl border border-white/10
+        bg-black/60 p-6 text-white backdrop-blur-sm
       "
       style={{
         backgroundImage: "url(/images/content/gallery/gallery_bg.png)",
         backgroundSize: "cover",
-        backgroundPosition: "center"
+        backgroundPosition: "center",
       }}
     >
-
-      {/* Wenn keine Kategorie gewählt ist → Kategorien anzeigen */}
       {selectedCategory === null && (
         <>
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-2xl font-semibold tracking-tight">
             Skylounge Gallery — Explore the Archives
           </h2>
 
           <GalleryCategories onSelectCategory={setSelectedCategory} />
-
-          <div className="mt-8 bg-black/50 p-4 rounded-md">
-            <p>CONTENT still in Orbit — Full Gallery unlocking soon ;)</p>
-          </div>
         </>
       )}
 
-      {/* Wenn Kategorie gewählt ist → Files anzeigen */}
       {selectedCategory !== null && (
-        <GalleryFiles 
+        <GalleryFiles
           category={selectedCategory}
           onBack={() => setSelectedCategory(null)}
         />
       )}
-
     </div>
   );
 }

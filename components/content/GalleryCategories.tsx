@@ -13,22 +13,20 @@ export default function GalleryCategories({ onSelectCategory }: GalleryCategorie
     "Music",
     "Poster",
     "Sticker",
-    "Rejeckt" // deiner bleibt ;)
+    "Rejeckt",
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-2 gap-3 p-1 sm:grid-cols-3 sm:gap-4 sm:p-2">
       {categories.map((cat) => (
         <button
           key={cat}
+          type="button"
           onClick={() => onSelectCategory(cat)}
           className="
-            w-full text-left 
-            bg-black/40 hover:bg-black/60 
-            p-4 rounded-lg 
-            border border-white/20
-            text-white text-lg font-medium
-            transition
+            w-full rounded-lg border border-white/20 bg-black/40
+            p-4 text-left text-base font-medium text-white
+            transition hover:bg-black/60 sm:text-lg
           "
         >
           {cat}

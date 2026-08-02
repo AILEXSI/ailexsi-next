@@ -2,7 +2,7 @@
 
 export default function ImpressumContent() {
   return (
-    <div className="mx-auto max-w-3xl space-y-12 px-6 py-16 leading-relaxed text-white/85">
+    <div className="mx-auto max-w-3xl space-y-12 px-5 py-10 leading-relaxed text-white/85 sm:px-6 sm:py-14">
       {/* ================= ENGLISH ================= */}
       <section className="space-y-4">
         <h1 className="text-3xl font-semibold text-white">Legal Notice (Imprint)</h1>

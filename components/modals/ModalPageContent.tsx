@@ -31,7 +31,7 @@ export default function ModalPageContent({
   return (
     <div
       className={`
-        fixed left-0 right-0 bottom-0 top-[115px]
+        fixed left-0 right-0 bottom-0 top-[70px]
         z-50
         flex items-center justify-center
         bg-black/50 backdrop-blur-md

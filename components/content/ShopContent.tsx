@@ -1,10 +1,10 @@
 export default function ShopContent() {
   return (
-    <div className="space-y-4 text-lg leading-relaxed">
-      <p>
-        CONTENT still in Orbit — AILEXSI Boutique will open soon with curated 
-        apparel, limited drops, books, vinyls, art prints and soul-crafted treasures.
+    <div className="space-y-4 text-lg leading-relaxed text-white/85">
+      <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/45">
+        Shop
       </p>
+      <p>AILEXSI Boutique — curated pieces will appear here when ready.</p>
     </div>
   );
 }

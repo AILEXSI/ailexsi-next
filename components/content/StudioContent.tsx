@@ -6,19 +6,20 @@ const musicBrands = [
     name: "SoundCloud",
     href: "https://soundcloud.com/ailexsi-monday",
     src: "/images/studio/logos/soundcloud.svg",
-    width: 36,
+    width: 40,
   },
   {
     name: "Suno",
     href: "https://suno.com",
-    src: "/images/studio/logos/suno.svg",
-    width: 72,
+    // Official Suno app icon: orange→pink/red gradient circle with SUNO wordmark
+    src: "/images/studio/logos/suno.png",
+    width: 40,
   },
   {
     name: "SoundBoost",
     href: "https://soundboost.ai/",
     src: "/images/studio/logos/soundboost.png",
-    width: 36,
+    width: 40,
   },
 ] as const;
 
@@ -68,11 +69,12 @@ export default function StudioContent() {
               title={brand.name}
               aria-label={brand.name}
               className="
-                group inline-flex h-10 items-center justify-center
+                group inline-flex h-11 w-11 items-center justify-center
+                rounded-full
                 transition duration-300
-                opacity-90
+                opacity-95
                 hover:opacity-100
-                hover:drop-shadow-[0_0_12px_rgba(100,220,255,0.35)]
+                hover:drop-shadow-[0_0_14px_rgba(255,120,80,0.45)]
                 focus-visible:outline focus-visible:outline-1 focus-visible:outline-cyan-400/50
               "
             >
@@ -81,12 +83,12 @@ export default function StudioContent() {
                 src={brand.src}
                 alt={brand.name}
                 width={brand.width}
-                height={36}
+                height={40}
                 className="
-                  h-9 w-auto object-contain
-                  brightness-100
+                  h-10 w-10 object-contain
                   transition duration-300
-                  group-hover:brightness-125
+                  group-hover:brightness-110
+                  group-hover:scale-[1.04]
                 "
               />
             </a>
