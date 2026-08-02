@@ -54,11 +54,16 @@ export default function Header() {
       {/*
         Full-viewport-width bar (matches layout mt-[70px]).
         Side zones share flex-1; infinity sits in true center, inside header height.
-        overflow-visible only so soft glow can slightly extend past the bar.
       */}
-      <div className="relative mx-auto box-border flex h-full w-full max-w-none items-center overflow-visible px-4 sm:px-6">
-        {/* LEFT: logo + legal */}
-        <div className="relative z-10 flex min-w-0 flex-1 items-center gap-4 sm:gap-8">
+      <div
+        className="
+          relative mx-auto box-border flex h-full w-full max-w-none items-center
+          overflow-visible
+          pl-6 pr-4 sm:pl-10 sm:pr-6 md:pl-14 md:pr-8 lg:pl-16
+        "
+      >
+        {/* LEFT: logo inset from edge + legal */}
+        <div className="relative z-10 flex min-w-0 flex-1 items-center gap-4 sm:gap-8 pl-1 sm:pl-2">
           <Link
             href="/"
             className="shrink-0 text-2xl font-bold tracking-wide text-white sm:text-3xl"
@@ -122,14 +127,14 @@ export default function Header() {
           </div>
         </div>
 
-        {/* RIGHT: page title — inset from the edge for visual balance */}
-        <div
-          className="
-            relative z-10 flex min-w-0 flex-1 items-center justify-end
-            pr-2 sm:pr-6 md:pr-10 lg:pr-14
-          "
-        >
-          <div className="flex max-w-[min(100%,14rem)] items-center justify-end gap-3 sm:max-w-[min(100%,18rem)] sm:gap-4">
+        {/* RIGHT: page title — balanced in right half, not edge-hugging */}
+        <div className="relative z-10 flex min-w-0 flex-1 items-center justify-end">
+          <div
+            className="
+              flex items-center justify-end gap-3 sm:gap-4
+              mr-4 sm:mr-8 md:mr-12 lg:mr-16 xl:mr-20
+            "
+          >
             {isLegalPage && (
               <button
                 type="button"
