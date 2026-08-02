@@ -58,9 +58,11 @@ export default function GalleryFiles({ category, onBack }: GalleryFilesProps) {
 
       {!selectedFile && (
         <>
-          <h2 className="text-2xl font-semibold tracking-tight">{category}</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">
+            {isMusic ? "Music" : `${category} — Files`}
+          </h2>
 
-          {/* Music: SoundCloud entry point */}
+          {/* Music: official orange SoundCloud logo link */}
           {isMusic && (
             <a
               href="https://soundcloud.com/ailexsi-monday"
@@ -68,8 +70,10 @@ export default function GalleryFiles({ category, onBack }: GalleryFilesProps) {
               rel="noopener noreferrer"
               className="
                 group inline-flex items-center gap-4 rounded-xl
-                border border-white/15 bg-black/50 px-4 py-3
-                transition hover:border-orange-400/40 hover:bg-black/70
+                border border-white/15 bg-black/50 px-5 py-4
+                transition
+                hover:border-[#FF5500]/50 hover:bg-black/70
+                hover:drop-shadow-[0_0_16px_rgba(255,85,0,0.25)]
               "
               title="SoundCloud — AILEXSI Monday"
               aria-label="Open SoundCloud AILEXSI Monday"
@@ -78,29 +82,23 @@ export default function GalleryFiles({ category, onBack }: GalleryFilesProps) {
               <img
                 src="/images/studio/logos/soundcloud.svg"
                 alt="SoundCloud"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain transition group-hover:brightness-110"
+                width={48}
+                height={48}
+                className="h-12 w-12 object-contain transition group-hover:brightness-110"
               />
-              <span className="text-sm text-white/75">
-                AILEXSI Monday on SoundCloud
-                <span className="ml-2 text-white/40 group-hover:text-orange-300/80">↗</span>
+              <span className="text-sm tracking-wide text-white/80">
+                soundcloud.com/ailexsi-monday
+                <span className="ml-2 text-[#FF5500]/70 transition group-hover:text-[#FF5500]">
+                  ↗
+                </span>
               </span>
             </a>
           )}
 
-          {loading && (
-            <p className="text-sm text-white/45">Loading…</p>
-          )}
+          {loading && <p className="text-sm text-white/45">Loading…</p>}
 
           {!loading && files.length === 0 && !isMusic && (
             <p className="text-sm text-white/50">No files in this archive yet.</p>
-          )}
-
-          {!loading && files.length === 0 && isMusic && (
-            <p className="text-sm text-white/45">
-              Stream music via SoundCloud above.
-            </p>
           )}
 
           {files.length > 0 && (

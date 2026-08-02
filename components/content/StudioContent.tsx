@@ -1,25 +1,26 @@
 /**
  * Studio portal content (∞). Page itself is image-only; music lives here.
+ *
+ * Logos (equal height, official brand marks):
+ * - SoundCloud orange cloud
+ * - Suno circular orange→pink gradient with SUNO wordmark (official app icon)
+ * - SoundBoost mark
  */
 const musicBrands = [
   {
     name: "SoundCloud",
     href: "https://soundcloud.com/ailexsi-monday",
     src: "/images/studio/logos/soundcloud.svg",
-    width: 40,
   },
   {
     name: "Suno",
     href: "https://suno.com",
-    // Official Suno app icon: orange→pink/red gradient circle with SUNO wordmark
     src: "/images/studio/logos/suno.png",
-    width: 40,
   },
   {
     name: "SoundBoost",
     href: "https://soundboost.ai/",
     src: "/images/studio/logos/soundboost.png",
-    width: 40,
   },
 ] as const;
 
@@ -57,7 +58,7 @@ export default function StudioContent() {
         </p>
 
         <nav
-          className="mt-7 flex flex-wrap items-center gap-6 sm:gap-8"
+          className="mt-7 flex flex-wrap items-center gap-7 sm:gap-9"
           aria-label="Studio music platforms"
         >
           {musicBrands.map((brand) => (
@@ -69,26 +70,25 @@ export default function StudioContent() {
               title={brand.name}
               aria-label={brand.name}
               className="
-                group inline-flex h-11 w-11 items-center justify-center
-                rounded-full
+                group relative inline-flex h-11 w-11 shrink-0
+                items-center justify-center overflow-hidden rounded-full
                 transition duration-300
-                opacity-95
-                hover:opacity-100
-                hover:drop-shadow-[0_0_14px_rgba(255,120,80,0.45)]
-                focus-visible:outline focus-visible:outline-1 focus-visible:outline-cyan-400/50
+                hover:drop-shadow-[0_0_14px_rgba(255,120,80,0.5)]
+                focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2
+                focus-visible:outline-cyan-400/50
               "
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={brand.src}
                 alt={brand.name}
-                width={brand.width}
-                height={40}
+                width={44}
+                height={44}
                 className="
-                  h-10 w-10 object-contain
+                  h-11 w-11 object-contain
                   transition duration-300
                   group-hover:brightness-110
-                  group-hover:scale-[1.04]
+                  group-hover:scale-[1.05]
                 "
               />
             </a>
