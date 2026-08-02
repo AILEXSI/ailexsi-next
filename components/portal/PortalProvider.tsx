@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 import ModalPageContent from "@/components/modals/ModalPageContent";
-
 import LandingContent from "@/components/content/LandingContent";
 import VisionContent from "@/components/content/VisionContent";
 import SkyloungeContent from "@/components/content/SkyloungeContent";
@@ -18,11 +17,10 @@ import ShopContent from "@/components/content/ShopContent";
 export default function PortalProvider() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() || "/";
-
-  const key = pathname.replace("/", "") || "landing";
+  const segment = pathname.replace(/^\//, "").split("/")[0] || "landing";
 
   function getContent() {
-    switch (key) {
+    switch (segment) {
       case "vision":
         return <VisionContent />;
       case "skylounge":
@@ -44,37 +42,35 @@ export default function PortalProvider() {
     }
   }
 
-  /* -------------------------------------------------------- */
-  /* GLOBAL PORTAL STATE – SINGLE SOURCE OF TRUTH              */
-  /* -------------------------------------------------------- */
   useEffect(() => {
-    (window as any).AILEXSI_PORTAL_OPEN = () => {
+    const w = window as unknown as {
+      AILEXSI_PORTAL_OPEN?: () => void;
+      AILEXSI_PORTAL_CLOSE?: () => void;
+      AILEXSI_PORTAL_TOGGLE?: () => void;
+      AILEXSI_PORTAL_STATE?: boolean;
+    };
+
+    w.AILEXSI_PORTAL_OPEN = () => {
       setOpen(true);
-      (window as any).AILEXSI_PORTAL_STATE = true;
+      w.AILEXSI_PORTAL_STATE = true;
     };
 
-    (window as any).AILEXSI_PORTAL_CLOSE = () => {
+    w.AILEXSI_PORTAL_CLOSE = () => {
       setOpen(false);
-      (window as any).AILEXSI_PORTAL_STATE = false;
+      w.AILEXSI_PORTAL_STATE = false;
     };
 
-    (window as any).AILEXSI_PORTAL_TOGGLE = () => {
-      const next = !(window as any).AILEXSI_PORTAL_STATE;
+    w.AILEXSI_PORTAL_TOGGLE = () => {
+      const next = !w.AILEXSI_PORTAL_STATE;
       setOpen(next);
-      (window as any).AILEXSI_PORTAL_STATE = next;
+      w.AILEXSI_PORTAL_STATE = next;
     };
   }, []);
 
-  /* -------------------------------------------------------- */
-  /* ROUTE CHANGE → ALWAYS CLOSE PORTAL                        */
-  /* -------------------------------------------------------- */
   useEffect(() => {
-    (window as any).AILEXSI_PORTAL_CLOSE?.();
+    (window as unknown as { AILEXSI_PORTAL_CLOSE?: () => void }).AILEXSI_PORTAL_CLOSE?.();
   }, [pathname]);
 
-  /* -------------------------------------------------------- */
-  /* SCROLL LOCK                                              */
-  /* -------------------------------------------------------- */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
@@ -82,7 +78,9 @@ export default function PortalProvider() {
   return (
     <ModalPageContent
       isOpen={open}
-      onClose={() => (window as any).AILEXSI_PORTAL_CLOSE?.()}
+      onClose={() =>
+        (window as unknown as { AILEXSI_PORTAL_CLOSE?: () => void }).AILEXSI_PORTAL_CLOSE?.()
+      }
     >
       {getContent()}
     </ModalPageContent>

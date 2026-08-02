@@ -1,20 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Background from "@/components/layout/Background";
 
+const STORAGE_KEY = "ailexsi_landing_seen";
+
+function subscribe() {
+  return () => {};
+}
+
+function getSnapshot() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
 export default function LandingPage() {
-  const [visited, setVisited] = useState(false);
+  const visited = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  useEffect(() => {
-    const hasVisited = localStorage.getItem("ailexsi_landing_seen");
-
-    if (hasVisited) {
-      setVisited(true);
-    } else {
-      localStorage.setItem("ailexsi_landing_seen", "true");
+  if (typeof window !== "undefined" && !visited) {
+    try {
+      localStorage.setItem(STORAGE_KEY, "true");
+    } catch {
+      /* ignore quota / private mode */
     }
-  }, []);
+  }
 
   const image = visited
     ? "/images/landing/your-second-landing-image.png"
@@ -23,8 +39,6 @@ export default function LandingPage() {
   return (
     <div className="relative w-full min-h-screen">
       <Background image={image} />
-
-      {/* FÜLLER – zwingt die Seite, Platz einzunehmen */}
       <div className="w-full h-[calc(100vh-70px)]" />
     </div>
   );
