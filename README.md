@@ -108,16 +108,6 @@ public/images/
     └── studio/studiocontent.png
 ```
 
----
-
-## Archive (`/old`)
-
-Unused images (`Neuer Ordner`, `*_old*`, previous exports), unused modal wrappers, starter SVGs, and obsolete configs are **not deleted**.
-
-They live under **`/old`** with original relative paths, documented in **[old/README.md](./old/README.md)**.
-
----
-
 ## Deploy (Vercel)
 
 1. Connect `AILEXSI/ailexsi-next` in Vercel.
