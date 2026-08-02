@@ -28,8 +28,8 @@ export default function StudioContent() {
   return (
     <div
       className="
-        space-y-6 text-lg leading-relaxed
-        p-6 rounded-xl
+        space-y-5 sm:space-y-6 text-base sm:text-lg leading-relaxed
+        p-4 sm:p-6 rounded-xl
         bg-black/60
         backdrop-blur-sm
         border border-white/10
@@ -41,7 +41,7 @@ export default function StudioContent() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="rounded-md bg-black/55 p-5 sm:p-6">
+      <div className="rounded-md bg-black/55 p-4 sm:p-6">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/45">
           Studio · Music
         </p>

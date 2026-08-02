@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* ---------- Design tokens ---------- */
+:root {
+  --header-height: 70px;
+}
+
+/* Mobile portrait: denser header so legal / title sit closer to ∞ */
+@media (max-width: 639px) {
+  :root {
+    --header-height: 58px;
+  }
+}
+
+/* Landscape (phones / short viewports): keep cinematic UI usable */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --header-height: 48px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 420px) {
+  :root {
+    --header-height: 44px;
+  }
+}
+
 /* ---------- Global Reset ---------- */
 * {
   margin: 0;
@@ -15,10 +40,26 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   scroll-behavior: smooth;
   min-height: 100%;
+  min-height: 100dvh;
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* Prefer smooth transitions without jank on low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ---------- Scrollbars ---------- */
@@ -74,8 +115,9 @@ a:hover {
 
 /* ---------- Page Layout Helpers ---------- */
 .page-container {
-  padding-top: 70px;
+  padding-top: var(--header-height);
   min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   position: relative;
 }
@@ -133,6 +175,15 @@ a:hover {
   }
 }
 
+@keyframes ailexsi-pageEnter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .animate-ailexsiFadeIn {
   animation: ailexsi-fadeIn 0.45s ease-out forwards;
 }
@@ -143,6 +194,10 @@ a:hover {
 
 .animate-lightsweep {
   animation: ailexsi-lightsweep 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-pageEnter {
+  animation: ailexsi-pageEnter 0.35s ease-out forwards;
 }
 
 /* Infinity header glow — soft pulse, no layout scale (stays inside header disc) */
@@ -156,4 +211,17 @@ a:hover {
     opacity: 0.5;
     transform: translate(-50%, -50%) scale(1.12);
   }
+}
+
+/* ---------- Header / Infinity scale for short landscape ---------- */
+@media (orientation: landscape) and (max-height: 500px) {
+  .ailexsi-header .infinity-btn-shell {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}
+
+/* Full-bleed background already set via component; ensure no overflow flash */
+.ailexsi-bg {
+  will-change: background-image;
 }

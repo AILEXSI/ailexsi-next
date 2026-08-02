@@ -37,9 +37,9 @@ export default function LandingPage() {
     : "/images/landing/hero-master_4k.png";
 
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full min-h-[calc(100dvh-var(--header-height))] animate-pageEnter">
       <Background image={image} />
-      <div className="w-full h-[calc(100vh-70px)]" />
+      <div className="w-full h-[calc(100dvh-var(--header-height))]" aria-hidden />
     </div>
   );
 }

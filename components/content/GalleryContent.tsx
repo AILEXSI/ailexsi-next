@@ -10,8 +10,8 @@ export default function GalleryContent() {
   return (
     <div
       className="
-        space-y-6 rounded-xl border border-white/10
-        bg-black/60 p-6 text-white backdrop-blur-sm
+        space-y-5 sm:space-y-6 rounded-xl border border-white/10
+        bg-black/60 p-4 sm:p-6 text-white backdrop-blur-sm
       "
       style={{
         backgroundImage: "url(/images/content/gallery/gallery_bg.png)",

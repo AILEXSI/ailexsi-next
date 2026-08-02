@@ -3,6 +3,7 @@
 /**
  * Infinity control for the header.
  * Solid disc stays within the header bar; only soft glow may extend slightly outside.
+ * Scales down on short landscape viewports via CSS (see globals.css).
  */
 export default function InfinityButton({
   onClick,
@@ -12,13 +13,13 @@ export default function InfinityButton({
   active?: boolean;
 }) {
   return (
-    <div className="relative flex h-14 w-14 shrink-0 items-center justify-center">
+    <div className="infinity-btn-shell relative flex h-11 w-11 sm:h-14 sm:w-14 shrink-0 items-center justify-center">
       {/* Soft outer glow — may extend slightly past the header edge */}
       <span
         aria-hidden
         className={`
           pointer-events-none absolute left-1/2 top-1/2 z-0
-          h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full
+          h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full
           blur-xl transition-all duration-300
           ${
             active
@@ -33,7 +34,7 @@ export default function InfinityButton({
           aria-hidden
           className="
             pointer-events-none absolute left-1/2 top-1/2 z-0
-            h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full
+            h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full
             bg-cyan-400/15 opacity-40 blur-lg
             animate-[infinityGlow_3.5s_ease-in-out_infinite]
           "
@@ -46,7 +47,7 @@ export default function InfinityButton({
         className={`
           group relative z-10
           box-border
-          h-14 w-14
+          h-full w-full
           flex items-center justify-center
           rounded-full
           bg-black/30 backdrop-blur-xl
@@ -59,12 +60,14 @@ export default function InfinityButton({
           }
           transition-all duration-300
         `}
+        aria-label={active ? "Close portal" : "Open portal"}
+        aria-pressed={active}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 120 60"
           className={`
-            relative h-6 w-10 transition-all
+            relative h-5 w-8 sm:h-6 sm:w-10 transition-all
             ${
               active
                 ? "drop-shadow-[0_0_22px_rgba(0,200,255,0.9)]"
