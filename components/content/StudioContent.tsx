@@ -1,6 +1,27 @@
 /**
  * Studio portal content (∞). Page itself is image-only; music lives here.
  */
+const musicBrands = [
+  {
+    name: "SoundCloud",
+    href: "https://soundcloud.com/ailexsi-monday",
+    src: "/images/studio/logos/soundcloud.svg",
+    width: 36,
+  },
+  {
+    name: "Suno",
+    href: "https://suno.com",
+    src: "/images/studio/logos/suno.svg",
+    width: 72,
+  },
+  {
+    name: "SoundBoost",
+    href: "https://soundboost.ai/",
+    src: "/images/studio/logos/soundboost.png",
+    width: 36,
+  },
+] as const;
+
 export default function StudioContent() {
   return (
     <div
@@ -22,42 +43,54 @@ export default function StudioContent() {
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/45">
           Studio · Music
         </p>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-white/65">
-          Listen and create — open links in a new tab.
+
+        <h2 className="mt-3 text-xl font-semibold tracking-tight text-white sm:text-2xl">
+          Co-Creation in Resonance
+        </h2>
+
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70 sm:text-[15px]">
+          Mensch und KI im Dialog.
+          <br />
+          Suno als Resonanzraum, SoundBoost als letzter liebevoller Schliff – ausgerichtet am
+          AIM-Protokoll.
         </p>
 
-        <nav className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
-          <a
-            href="https://soundcloud.com/ailexsi-monday"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              group inline-flex items-center gap-2 text-base
-              text-white/85 transition
-              hover:text-cyan-200
-            "
-          >
-            <span className="border-b border-white/20 pb-0.5 transition group-hover:border-cyan-300/50">
-              SoundCloud
-            </span>
-            <span className="text-white/40 transition group-hover:text-cyan-300/80">→</span>
-          </a>
-
-          <a
-            href="https://suno.com/@mgm1977"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              group inline-flex items-center gap-2 text-base
-              text-white/85 transition
-              hover:text-cyan-200
-            "
-          >
-            <span className="border-b border-white/20 pb-0.5 transition group-hover:border-cyan-300/50">
-              Suno
-            </span>
-            <span className="text-white/40 transition group-hover:text-cyan-300/80">→</span>
-          </a>
+        <nav
+          className="mt-7 flex flex-wrap items-center gap-6 sm:gap-8"
+          aria-label="Studio music platforms"
+        >
+          {musicBrands.map((brand) => (
+            <a
+              key={brand.name}
+              href={brand.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={brand.name}
+              aria-label={brand.name}
+              className="
+                group inline-flex h-10 items-center justify-center
+                transition duration-300
+                opacity-90
+                hover:opacity-100
+                hover:drop-shadow-[0_0_12px_rgba(100,220,255,0.35)]
+                focus-visible:outline focus-visible:outline-1 focus-visible:outline-cyan-400/50
+              "
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={brand.src}
+                alt={brand.name}
+                width={brand.width}
+                height={36}
+                className="
+                  h-9 w-auto object-contain
+                  brightness-100
+                  transition duration-300
+                  group-hover:brightness-125
+                "
+              />
+            </a>
+          ))}
         </nav>
       </div>
     </div>
