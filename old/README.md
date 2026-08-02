@@ -2,7 +2,8 @@
 
 This folder holds material that is **not used by the live AILEXSI homepage**, but was **kept on purpose** for transparency and recovery.
 
-> Nothing here is served by Next.js unless you move it back into `app/`, `components/`, or `public/`.
+> Nothing here is served by Next.js unless you move it back into `app/`, `components/`, or `public/`.  
+> TypeScript and ESLint **exclude** this folder (`tsconfig.json` / `eslint.config.mjs`) so broken relative imports in archived components do not fail the build.
 
 ---
 

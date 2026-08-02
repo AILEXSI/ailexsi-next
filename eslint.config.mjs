@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Archived materials (not part of the live app)
+    "old/**",
   ]),
 ]);
 
