@@ -225,3 +225,24 @@ a:hover {
 .ailexsi-bg {
   will-change: background-image;
 }
+
+/* Stage play control. Reduced motion is already collapsed globally. */
+@keyframes stagePlayPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 176, 90, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(255, 176, 90, 0);
+  }
+}
+
+.animate-stagePlay {
+  animation: stagePlayPulse 2.4s ease-out infinite;
+}
+
+.stage-youtube iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
