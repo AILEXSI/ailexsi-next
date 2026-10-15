@@ -9,6 +9,17 @@ const nextConfig: NextConfig = {
   turbopack: {
     root,
   },
+  images: {
+    // Artwork is fetched by the image optimizer, so the visitor's browser
+    // does not contact SoundCloud until they press play.
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.sndcdn.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

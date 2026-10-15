@@ -1,0 +1,58 @@
+/** Public SoundCloud profile for the Studio portal. Single x: ailexsi-monday. */
+export const SOUNDCLOUD_PROFILE_URL = "https://soundcloud.com/ailexsi-monday";
+
+/**
+ * Official public RSS (no API key). User id is stable if the permalink changes.
+ * https://feeds.soundcloud.com/users/soundcloud:users:1611409515/sounds.rss
+ */
+export const SOUNDCLOUD_TRACKS_RSS =
+  "https://feeds.soundcloud.com/users/soundcloud:users:1611409515/sounds.rss";
+
+export const STUDIO_TRACK_LIMIT = 5;
+
+export type StudioTrack = {
+  id: string;
+  title: string;
+  pageUrl: string;
+  streamUrl: string;
+  artworkUrl: string | null;
+  durationLabel: string;
+  publishedAt: string;
+};
+
+export function isSoundCloudTrackPage(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.protocol === "https:" &&
+      parsed.hostname === "soundcloud.com" &&
+      parsed.pathname.startsWith("/ailexsi-monday/")
+    );
+  } catch {
+    return false;
+  }
+}
+
+/** Stable podcast enclosure. The browser follows a short-lived redirect at play time. */
+export function isSoundCloudStreamUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.protocol === "https:" &&
+      parsed.hostname === "feeds.soundcloud.com" &&
+      parsed.pathname.startsWith("/stream/") &&
+      parsed.pathname.endsWith(".mp3")
+    );
+  } catch {
+    return false;
+  }
+}
+
+export function isSoundCloudArtworkUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "https:" && /(^|\.)sndcdn\.com$/.test(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
