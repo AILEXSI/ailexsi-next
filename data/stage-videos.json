@@ -1,0 +1,14 @@
+[
+  {
+    "id": "skylounge-preview",
+    "title": "Skylounge preview",
+    "source": "mp4",
+    "src": "/videos/skylounge-preview.mp4"
+  },
+  {
+    "id": "big-buck-bunny",
+    "title": "Big Buck Bunny",
+    "source": "youtube",
+    "youtubeId": "aqz-KE-bpKQ"
+  }
+]
