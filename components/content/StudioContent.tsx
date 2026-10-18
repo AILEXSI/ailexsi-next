@@ -1,3 +1,6 @@
+import StudioTracks from "@/components/content/StudioTracks";
+import { SOUNDCLOUD_PROFILE_URL } from "@/lib/studio-tracks";
+
 /**
  * Studio portal content (∞). Page itself is image-only; music lives here.
  *
@@ -9,7 +12,7 @@
 const musicBrands = [
   {
     name: "SoundCloud",
-    href: "https://soundcloud.com/ailexsi-monday",
+    href: SOUNDCLOUD_PROFILE_URL,
     src: "/images/studio/logos/soundcloud.svg",
   },
   {
@@ -94,6 +97,8 @@ export default function StudioContent() {
             </a>
           ))}
         </nav>
+
+        <StudioTracks />
       </div>
     </div>
   );

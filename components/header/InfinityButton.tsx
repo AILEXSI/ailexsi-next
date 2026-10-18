@@ -1,10 +1,36 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 /**
  * Infinity control for the header.
  * Solid disc stays within the header bar; only soft glow may extend slightly outside.
  * Scales down on short landscape viewports via CSS (see globals.css).
+ *
+ * If the portal has not been opened, the glow radius eases outward after 42s
+ * and starts a slow pulse after 144s. Opening the portal stops the hint.
+ * prefers-reduced-motion keeps a static stronger glow and does not pulse.
  */
+const PORTAL_HINT_GROW_MS = 42_000;
+const PORTAL_HINT_PULSE_MS = 144_000;
+const PORTAL_OPENED_KEY = "ailexsi-portal-opened";
+
+function rememberPortalOpened() {
+  try {
+    sessionStorage.setItem(PORTAL_OPENED_KEY, "1");
+  } catch {
+    /* private mode */
+  }
+}
+
+function portalAlreadyOpened(): boolean {
+  try {
+    return sessionStorage.getItem(PORTAL_OPENED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
 export default function InfinityButton({
   onClick,
   active = false,
@@ -12,21 +38,90 @@ export default function InfinityButton({
   onClick?: () => void;
   active?: boolean;
 }) {
+  const shellRef = useRef<HTMLDivElement>(null);
+  const growSeconds = (PORTAL_HINT_PULSE_MS - PORTAL_HINT_GROW_MS) / 1000;
+
+  useEffect(() => {
+    const shell = shellRef.current;
+    if (!shell) return;
+
+    const clearHint = () => {
+      delete shell.dataset.portalHint;
+    };
+
+    if (active || portalAlreadyOpened()) {
+      if (active) rememberPortalOpened();
+      clearHint();
+      return;
+    }
+
+    const started = Date.now();
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let timers: number[] = [];
+    let growKick = 0;
+
+    const clearTimers = () => {
+      for (const timer of timers) window.clearTimeout(timer);
+      timers = [];
+    };
+
+    const beginGrow = () => {
+      if (shell.isConnected && shell.dataset.portalHint === "armed") {
+        shell.dataset.portalHint = "grow";
+      }
+    };
+
+    const schedule = () => {
+      clearTimers();
+      const elapsed = Date.now() - started;
+      const reduce = media.matches;
+      if (elapsed >= PORTAL_HINT_PULSE_MS) {
+        window.clearTimeout(growKick);
+        shell.dataset.portalHint = reduce ? "steady" : "pulse";
+        return;
+      }
+      if (elapsed >= PORTAL_HINT_GROW_MS) {
+        if (reduce) {
+          window.clearTimeout(growKick);
+          shell.dataset.portalHint = "steady";
+        } else if (shell.dataset.portalHint !== "grow" && shell.dataset.portalHint !== "armed") {
+          // Arm the CSS transition for a frame so the radius eases instead of snapping.
+          // setTimeout covers background tabs, where requestAnimationFrame is paused.
+          shell.dataset.portalHint = "armed";
+          requestAnimationFrame(beginGrow);
+          window.clearTimeout(growKick);
+          growKick = window.setTimeout(beginGrow, 48);
+        }
+      } else {
+        clearHint();
+        timers.push(window.setTimeout(schedule, PORTAL_HINT_GROW_MS - elapsed));
+      }
+      if (!reduce) {
+        timers.push(window.setTimeout(schedule, PORTAL_HINT_PULSE_MS - elapsed));
+      }
+    };
+
+    schedule();
+    media.addEventListener("change", schedule);
+    return () => {
+      clearTimers();
+      window.clearTimeout(growKick);
+      media.removeEventListener("change", schedule);
+    };
+  }, [active]);
+
   return (
-    <div className="infinity-btn-shell relative flex h-11 w-11 sm:h-14 sm:w-14 shrink-0 items-center justify-center">
+    <div
+      ref={shellRef}
+      className="infinity-btn-shell relative flex h-11 w-11 sm:h-14 sm:w-14 shrink-0 items-center justify-center"
+      style={{ ["--portal-grow-duration" as string]: `${growSeconds}s` }}
+    >
       {/* Soft outer glow — may extend slightly past the header edge */}
       <span
         aria-hidden
-        className={`
-          pointer-events-none absolute left-1/2 top-1/2 z-0
-          h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full
-          blur-xl transition-all duration-300
-          ${
-            active
-              ? "scale-110 bg-cyan-400/40 opacity-80"
-              : "scale-100 bg-cyan-400/20 opacity-45"
-          }
-        `}
+        className={`portal-glow pointer-events-none absolute left-1/2 top-1/2 z-0 h-full w-full rounded-full ${
+          active ? "portal-glow-active" : ""
+        }`}
       />
       {/* Gentle pulse (no layout-breaking ping scale) */}
       {!active && (
@@ -43,7 +138,13 @@ export default function InfinityButton({
 
       <button
         type="button"
-        onClick={onClick}
+        onClick={() => {
+          if (!active) {
+            rememberPortalOpened();
+            if (shellRef.current) delete shellRef.current.dataset.portalHint;
+          }
+          onClick?.();
+        }}
         className={`
           group relative z-10
           box-border
