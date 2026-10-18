@@ -10,6 +10,18 @@ export const SOUNDCLOUD_TRACKS_RSS =
 
 export const STUDIO_TRACK_LIMIT = 5;
 
+/**
+ * SoundBoost masters are uploaded with a trailing "Mastered-File" label.
+ * Hide that suffix in the portal. SoundCloud permalinks stay as published.
+ * Separators around the words may be spaces or hyphens, in any case.
+ */
+const MASTERED_FILE_SUFFIX = /[\s-]*mastered[\s-]*file[\s-]*$/i;
+
+export function displayTrackTitle(title: string): string {
+  const stripped = title.replace(MASTERED_FILE_SUFFIX, "").trim();
+  return stripped.length > 0 ? stripped : title.trim();
+}
+
 export type StudioTrack = {
   id: string;
   title: string;
