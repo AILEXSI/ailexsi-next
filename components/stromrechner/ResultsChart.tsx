@@ -1,12 +1,12 @@
 import { formatEur, formatNumber, roundEur } from "@/lib/stromrechner/money";
 import type { CostLine } from "@/lib/stromrechner/types";
 
-const SHORT: Record<CostLine["id"], [string, string]> = {
-  fixed: ["Festpreis", "Vertrag"],
-  dynamic: ["Dynamisch", "unverändert"],
-  dynamicShifted: ["Dynamisch", "verschoben"],
-  modul3: ["Modul 3", "unverändert"],
-  modul3Shifted: ["Modul 3", "verschoben"],
+const SHORT: Record<CostLine["id"], string> = {
+  fixed: "Festpreis",
+  dynamic: "Dynamisch",
+  dynamicShifted: "verschoben",
+  modul3: "Modul 3",
+  modul3Shifted: "M3 verschoben",
 };
 
 const COLORS = [
@@ -19,11 +19,11 @@ const COLORS = [
 
 export default function ResultsChart({ lines }: { lines: CostLine[] }) {
   const width = 640;
-  const height = 280;
+  const height = 260;
   const padLeft = 36;
   const padRight = 12;
   const padTop = 28;
-  const padBottom = 64;
+  const padBottom = 42;
   const innerW = width - padLeft - padRight;
   const innerH = height - padTop - padBottom;
   const max = Math.max(...lines.map((line) => line.grossEur), 1);
@@ -78,21 +78,12 @@ export default function ResultsChart({ lines }: { lines: CostLine[] }) {
               </text>
               <text
                 x={x + barW / 2}
-                y={padTop + innerH + 22}
+                y={padTop + innerH + 20}
                 textAnchor="middle"
                 fill="rgba(255,255,255,0.78)"
-                fontSize="11"
+                fontSize="12"
               >
-                {SHORT[line.id][0]}
-              </text>
-              <text
-                x={x + barW / 2}
-                y={padTop + innerH + 38}
-                textAnchor="middle"
-                fill="rgba(255,255,255,0.55)"
-                fontSize="11"
-              >
-                {SHORT[line.id][1]}
+                {SHORT[line.id]}
               </text>
             </g>
           );
