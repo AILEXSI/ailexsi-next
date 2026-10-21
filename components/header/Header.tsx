@@ -104,6 +104,13 @@ export default function Header() {
               <span className="sm:hidden">Privacy</span>
               <span className="hidden sm:inline">Privacy Policy</span>
             </Link>
+            <Link
+              href="/stromrechner"
+              className="hover:text-white transition whitespace-nowrap leading-tight text-amber-100/80"
+            >
+              <span className="sm:hidden">Strom</span>
+              <span className="hidden sm:inline">Stromrechner</span>
+            </Link>
           </div>
         </div>
 

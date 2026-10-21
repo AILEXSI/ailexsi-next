@@ -13,6 +13,7 @@ import StudioContent from "@/components/content/StudioContent";
 import GalleryContent from "@/components/content/GalleryContent";
 import HeartspaceContent from "@/components/content/HeartspaceContent";
 import ShopContent from "@/components/content/ShopContent";
+import StromrechnerContent from "@/components/content/StromrechnerContent";
 
 export default function PortalProvider() {
   const [open, setOpen] = useState(false);
@@ -37,6 +38,8 @@ export default function PortalProvider() {
         return <HeartspaceContent />;
       case "shop":
         return <ShopContent />;
+      case "stromrechner":
+        return <StromrechnerContent />;
       default:
         return <LandingContent />;
     }
