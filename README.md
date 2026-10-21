@@ -56,6 +56,7 @@ Header arrows cycle in this order (wraps around):
 |------|------|
 | `/impressum` | Legal notice |
 | `/datenschutz` | Privacy policy |
+| `/stromrechner` | Stromkosten-Rechner (outside the cycle). Operator pages live at `/stromrechner/<id>`. |
 
 ---
 

@@ -50,6 +50,7 @@ export function getHeaderTitle(pathname: string): string {
   if (!clean) return pageTitles[""];
   if (clean === "impressum") return "Legal Notice";
   if (clean === "datenschutz") return "Privacy Policy";
+  if (getNavSegment(pathname) === "stromrechner") return "Stromrechner";
 
   const segment = getNavSegment(pathname) as PageName;
   return pageTitles[segment] ?? "AILEXSI";
